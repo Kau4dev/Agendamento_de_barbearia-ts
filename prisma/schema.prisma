@@ -13,3 +13,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Servico {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  descricao String?  
+  preco     Float
+  duracao   Int      // Duração em minutos (ex: 30, 45, 60)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

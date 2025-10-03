@@ -1,15 +1,47 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// Define o gerador de cliente do Prisma para TypeScript.
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
+// Define a fonte de dados (banco de dados).
+// Estou usando PostgreSQL como exemplo, mas você pode mudar para "mysql", "sqlite", etc.
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") // A URL do seu banco vem do arquivo .env
+}
+
+// Enum para limitar as opções de status de um agendamento.
+enum StatusAgendamento {
+  PENDENTE
+  CONFIRMADO
+  CANCELADO
+  CONCLUIDO
+}
+
+// Modelo único para Agendamentos de Barbearia.
+model Agendamento {
+  id        Int      @id @default(autoincrement())
+
+  // Dados do Cliente
+  nomeCliente     String
+  telefoneCliente String
+
+  // Dados do Serviço e Atendimento
+  nomeBarbeiro      String
+  nomeServico       String
+  duracaoEmMinutos  Int      // Duração do serviço em minutos (ex: 30, 60)
+  precoServico      Float    // Preço do serviço agendado
+
+  // Data e Status
+  dataHora DateTime // Armazena a data e a hora exatas do agendamento
+  status   StatusAgendamento @default(PENDENTE)
+
+  // Datas de controle do registro
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("agendamentos") // Mapeia para a tabela "agendamentos" no banco de dados.
 }

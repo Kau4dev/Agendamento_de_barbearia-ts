@@ -25,6 +25,8 @@ export const usuarioRouter = express.Router();
  *     responses:
  *       200:
  *         description: Lista de usuários retornada com sucesso
+ *       500:
+ *         description: Erro interno do servidor
  */
 usuarioRouter.get("/", getAllUsuarios);
 
@@ -46,6 +48,10 @@ usuarioRouter.get("/", getAllUsuarios);
  *         description: Usuário encontrado
  *       404:
  *         description: Usuário não encontrado
+ *       400:
+ *         description: Requisição inválida
+ *       500:
+ *         description: Erro interno do servidor
  */
 usuarioRouter.get("/:id", getUsuario);
 
@@ -75,6 +81,8 @@ usuarioRouter.get("/:id", getUsuario);
  *         description: Usuário criado com sucesso
  *       400:
  *         description: Dados inválidos
+ *       500:
+ *         description: Erro interno do servidor
  */
 usuarioRouter.post("/", createUsuario);
 
@@ -111,6 +119,8 @@ usuarioRouter.post("/", createUsuario);
  *         description: Dados inválidos
  *       404:
  *         description: Usuário não encontrado
+ *       500:
+ *         description: Erro interno do servidor
  */
 usuarioRouter.put("/:id", updateUsuario);
 
@@ -132,5 +142,7 @@ usuarioRouter.put("/:id", updateUsuario);
  *         description: Usuário removido com sucesso
  *       404:
  *         description: Usuário não encontrado
+ *       500:
+ *         description: Erro interno do servidor
  */
 usuarioRouter.delete("/:id", deleteUsuario);

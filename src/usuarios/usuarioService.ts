@@ -1,14 +1,11 @@
-import { prisma } from "../prismaClient.js";
-import type {
-  CreateUsuarioInput,
-  UpdateUsuarioInput,
-} from "./UsuarioSchema.js";
+import { prisma } from "../prismaClient";
+import type { CreateUsuarioInput, UpdateUsuarioInput } from "./UsuarioSchema";
 
 export const getUsuarios = async () => {
   return await prisma.usuario.findMany();
 };
 
-export const getUsuarioById = async (id: string) => {
+export const getUsuarioById = async (id: number) => {
   return await prisma.usuario.findUnique({
     where: { id },
   });
@@ -20,14 +17,18 @@ export const createUsuario = async (data: CreateUsuarioInput) => {
   });
 };
 
-export const updateUsuario = async (id: string, data: UpdateUsuarioInput) => {
+export const updateUsuario = async (id: number, data: UpdateUsuarioInput) => {
   return await prisma.usuario.update({
     where: { id },
-    data,
+    data: {
+      ...(data.nome !== undefined && { nome: data.nome }),
+      ...(data.telefone !== undefined && { telefone: data.telefone }),
+      ...(data.senha !== undefined && { senha: data.senha }),
+    },
   });
 };
 
-export const deleteUsuario = async (id: string) => {
+export const deleteUsuario = async (id: number) => {
   return await prisma.usuario.delete({
     where: { id },
   });

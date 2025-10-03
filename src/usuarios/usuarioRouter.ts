@@ -100,8 +100,6 @@ usuarioRouter.post("/", createUsuario);
  *             properties:
  *               nome:
  *                 type: string
- *               email:
- *                 type: string
  *               senha:
  *                 type: string
  *               telefone:

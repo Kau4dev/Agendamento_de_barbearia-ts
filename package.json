@@ -1,5 +1,6 @@
 {
   "name": "agendamento-de-barbearia",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -26,6 +27,6 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.6.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.3"
-  }
+    "typescript":"^5.9.3"
+}
 }

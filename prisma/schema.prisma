@@ -6,8 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
+
 
 datasource db {
   provider = "postgresql"
@@ -27,3 +27,14 @@ model Usuario {
   //Agendamento Agendamento[]
 }
 
+
+model Servico {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  descricao String?  
+  preco     Float
+  duracao   Int     
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

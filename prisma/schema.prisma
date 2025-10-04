@@ -14,12 +14,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  telefone  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //Agendamento Agendamento[]
+}
+
+
 model Servico {
   id        Int      @id @default(autoincrement())
   nome      String   @unique
   descricao String?  
   preco     Float
-  duracao   Int      // Duração em minutos (ex: 30, 45, 60)
+  duracao   Int     
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

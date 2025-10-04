@@ -19,10 +19,10 @@ model Usuario {
   senha     String
   telefone  String
 
+  agendamentos Agendamento[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  //Agendamento Agendamento[]
 }
 
 
@@ -32,6 +32,8 @@ model Servico {
   descricao String?  
   preco     Float
   duracao   Int     
+
+  agendamentos Agendamento[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -46,19 +48,17 @@ enum StatusAgendamento {
 
 model Agendamento {
   id                Int      @id @default(autoincrement())
-  nomeCliente       String
-  telefoneCliente   String
-  nomeBarbeiro      String
-  nomeServico       String
-  duracaoEmMinutos  Int      
-  precoServico      Float   
+  dataHora          DateTime
+  status            StatusAgendamento @default(PENDENTE)
 
-  dataHora DateTime 
-  status   StatusAgendamento @default(PENDENTE)
+  usuarioId         Int
+  servicoId         Int
 
+  usuario           Usuario @relation(fields: [usuarioId], references: [id])
+  servico           Servico @relation(fields: [servicoId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@map("agendamentos") 
 }

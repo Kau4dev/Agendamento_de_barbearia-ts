@@ -9,7 +9,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // A URL do seu banco vem do arquivo .env
+  url      = env("DATABASE_URL") 
 }
 
 model Usuario {
@@ -25,6 +25,18 @@ model Usuario {
   updatedAt DateTime @updatedAt
 }
 
+model Barbeiro {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  telefone  String
+
+  //agenda    Agenda[]
+  agendamentos Agendamento[]
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 model Servico {
   id        Int      @id @default(autoincrement())
@@ -53,9 +65,11 @@ model Agendamento {
 
   usuarioId         Int
   servicoId         Int
+  barbeiroId        Int
 
-  usuario           Usuario @relation(fields: [usuarioId], references: [id])
-  servico           Servico @relation(fields: [servicoId], references: [id])
+  usuario           Usuario  @relation(fields: [usuarioId], references: [id])
+  barbeiro          Barbeiro @relation(fields: [barbeiroId], references: [id])
+  servico           Servico  @relation(fields: [servicoId], references: [id])
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

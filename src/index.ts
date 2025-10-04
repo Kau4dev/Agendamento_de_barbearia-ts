@@ -2,6 +2,7 @@ import express from "express";
 import { json } from "express";
 import { usuarioRouter } from "./usuarios/usuarioRouter";
 import servicoRouter from "./servicos/servicoRouter";
+import agendamentoRouter from "./agendamentos/agendamentoRouter";
 import { setupSwagger } from "./swagger";
 
 const app = express();
@@ -11,7 +12,7 @@ app.use(json());
 
 app.use("/usuarios", usuarioRouter);
 app.use("/servicos", servicoRouter);
-
+app.use("/agendamentos", agendamentoRouter);
 setupSwagger(app);
 
 app.listen(PORT, () => {

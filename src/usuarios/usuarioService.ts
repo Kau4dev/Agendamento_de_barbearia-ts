@@ -1,4 +1,4 @@
-import { prisma } from "../config/prismaClient";
+import { prisma } from "../config/prisma";
 import type { CreateUsuarioInput, UpdateUsuarioInput } from "./UsuarioSchema";
 
 export const getUsuarios = async () => {

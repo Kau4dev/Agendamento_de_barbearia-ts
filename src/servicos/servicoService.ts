@@ -1,6 +1,6 @@
-import { prisma } from "../config/prismaClient";
+import { prisma } from "../config/prisma";
 import { z } from "zod";
-import { createServicoSchema, updateServicoSchema } from "./servicosSchema"; // <-- AJUSTADO
+import { createServicoSchema, updateServicoSchema } from "./servicosSchema";
 
 type CreateServicoData = z.infer<typeof createServicoSchema>["body"];
 type UpdateServicoData = z.infer<typeof updateServicoSchema>["body"];
@@ -35,7 +35,6 @@ export const ServicoService = {
     return servico;
   },
 
-  // --- ATUALIZAR ---
   update: async (id: number, data: UpdateServicoData) => {
     const servicoExistente = await prisma.servico.findUnique({ where: { id } });
     if (!servicoExistente) {
@@ -52,7 +51,6 @@ export const ServicoService = {
     });
   },
 
-  // --- DELETAR ---
   delete: async (id: number) => {
     const servicoExistente = await prisma.servico.findUnique({ where: { id } });
     if (!servicoExistente) {

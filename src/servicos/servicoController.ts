@@ -1,5 +1,3 @@
-// Caminho: src/modules/servicos/servicoController.ts
-
 import type { Request, Response } from "express";
 import { ServicoService } from "./servicoService";
 

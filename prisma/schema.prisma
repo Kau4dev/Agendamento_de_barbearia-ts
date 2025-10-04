@@ -6,14 +6,37 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Define a fonte de dados (banco de dados).
-// Estou usando PostgreSQL como exemplo, mas você pode mudar para "mysql", "sqlite", etc.
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL") // A URL do seu banco vem do arquivo .env
 }
 
-// Enum para limitar as opções de status de um agendamento.
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  telefone  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  //Agendamento Agendamento[]
+}
+
+
+model Servico {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  descricao String?  
+  preco     Float
+  duracao   Int     
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum StatusAgendamento {
   PENDENTE
   CONFIRMADO
@@ -21,27 +44,21 @@ enum StatusAgendamento {
   CONCLUIDO
 }
 
-// Modelo único para Agendamentos de Barbearia.
 model Agendamento {
-  id        Int      @id @default(autoincrement())
-
-  // Dados do Cliente
-  nomeCliente     String
-  telefoneCliente String
-
-  // Dados do Serviço e Atendimento
+  id                Int      @id @default(autoincrement())
+  nomeCliente       String
+  telefoneCliente   String
   nomeBarbeiro      String
   nomeServico       String
-  duracaoEmMinutos  Int      // Duração do serviço em minutos (ex: 30, 60)
-  precoServico      Float    // Preço do serviço agendado
+  duracaoEmMinutos  Int      
+  precoServico      Float   
 
-  // Data e Status
-  dataHora DateTime // Armazena a data e a hora exatas do agendamento
+  dataHora DateTime 
   status   StatusAgendamento @default(PENDENTE)
 
-  // Datas de controle do registro
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("agendamentos") // Mapeia para a tabela "agendamentos" no banco de dados.
+  @@map("agendamentos") 
 }

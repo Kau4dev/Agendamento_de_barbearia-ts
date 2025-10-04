@@ -15,6 +15,7 @@ export class AgendamentoService {
       data: {
         usuarioId: data.usuarioId,
         servicoId: data.servicoId,
+        barbeiroId: data.barbeiroId,
         dataHora: data.dataHora,
       },
     });

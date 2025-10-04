@@ -1,6 +1,6 @@
 import { prisma } from "../config/prisma";
 import { z } from "zod";
-import { createServicoSchema, updateServicoSchema } from "./servicosSchema";
+import { createServicoSchema, updateServicoSchema } from "./servicoSchema";
 
 type CreateServicoData = z.infer<typeof createServicoSchema>["body"];
 type UpdateServicoData = z.infer<typeof updateServicoSchema>["body"];

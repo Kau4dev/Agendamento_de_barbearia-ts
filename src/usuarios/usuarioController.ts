@@ -4,8 +4,12 @@ import type { CreateUsuarioInput, UpdateUsuarioInput } from "./UsuarioSchema";
 import { createUsuarioSchema, updateUsuarioSchema } from "./UsuarioSchema";
 
 export const getAllUsuarios = async (_req: Request, res: Response) => {
-  const usuarios = await service.getUsuarios();
-  return res.json(usuarios);
+  try {
+    const usuarios = await service.getUsuarios();
+    return res.json(usuarios);
+  } catch (error) {
+    return res.status(500).json({ message: "Erro interno do servidor" });
+  }
 };
 
 export const getUsuario = async (req: Request, res: Response) => {

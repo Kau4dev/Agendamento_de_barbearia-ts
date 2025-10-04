@@ -26,6 +26,8 @@ const controller = new AgendamentoController();
  *             properties:
  *               usuarioId:
  *                 type: integer
+ *               barbeiroId:
+ *                 type: integer
  *               servicoId:
  *                 type: integer
  *               data:
@@ -101,6 +103,8 @@ agendamentoRouter.get("/:id", controller.getById);
  *             type: object
  *             properties:
  *               usuarioId:
+ *                 type: integer
+ *               barbeiroId:
  *                 type: integer
  *               servicoId:
  *                 type: integer

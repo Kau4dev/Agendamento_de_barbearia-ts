@@ -8,6 +8,9 @@ export const getUsuarios = async () => {
 export const getUsuarioById = async (id: number) => {
   return await prisma.usuario.findUnique({
     where: { id },
+    include: {
+      agendamentos: true,
+    },
   });
 };
 

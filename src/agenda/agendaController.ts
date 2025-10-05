@@ -1,5 +1,5 @@
 import prisma from '../prisma'; // Ajuste o caminho se necessário
-import { UpdateAgendaBody } from './agendaSchema.js';
+import type { UpdateAgendaBody } from './agendaSchema.js';
 
 class AgendaService {
   public async getOrCreateAgendaByBarbeiroId(barbeiroId: number) {

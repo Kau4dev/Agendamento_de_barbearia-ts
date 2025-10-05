@@ -2,7 +2,7 @@ import { prisma } from "../config/prisma";
 import { z } from "zod";
 import { createServicoSchema, updateServicoSchema } from "./servicoSchema";
 
-type CreateServicoData = z.infer<typeof createServicoSchema>["body"];
+type CreateServicoData = z.infer<typeof createServicoSchema>;
 type UpdateServicoData = z.infer<typeof updateServicoSchema>["body"];
 
 export const ServicoService = {
@@ -28,7 +28,12 @@ export const ServicoService = {
   },
 
   findById: async (id: number) => {
-    const servico = await prisma.servico.findUnique({ where: { id } });
+    const servico = await prisma.servico.findUnique({
+      where: { id },
+      include: {
+        agendamentos: true,
+      },
+    });
     if (!servico) {
       throw new Error("Serviço não encontrado.");
     }

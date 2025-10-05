@@ -22,20 +22,27 @@ const controller = new AgendamentoController();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               usuarioId:
- *                 type: integer
- *               barbeiroId:
- *                 type: integer
- *               servicoId:
- *                 type: integer
- *               data:
- *                 type: string
- *                 format: date-time
+ *             $ref: '#/components/schemas/AgendamentoInput'
+ *           example:
+ *             usuarioId: 1
+ *             barbeiroId: 2
+ *             servicoId: 3
+ *             dataHora: "2025-10-10T14:00:00.000Z"
  *     responses:
  *       201:
  *         description: Agendamento criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Agendamento'
+ *             example:
+ *               id: 10
+ *               usuarioId: 1
+ *               barbeiroId: 2
+ *               servicoId: 3
+ *               data: "2025-10-10T14:00:00.000Z"
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       500:
@@ -100,20 +107,27 @@ agendamentoRouter.get("/:id", controller.getById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               usuarioId:
- *                 type: integer
- *               barbeiroId:
- *                 type: integer
- *               servicoId:
- *                 type: integer
- *               data:
- *                 type: string
- *                 format: date-time
+ *             $ref: '#/components/schemas/AgendamentoInput'
+ *           example:
+ *             usuarioId: 1
+ *             barbeiroId: 2
+ *             servicoId: 3
+ *             data: "2025-10-11T15:00:00.000Z"
  *     responses:
  *       200:
  *         description: Agendamento atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Agendamento'
+ *             example:
+ *               id: 10
+ *               usuarioId: 1
+ *               barbeiroId: 2
+ *               servicoId: 3
+ *               data: "2025-10-11T15:00:00.000Z"
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:10:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       404:

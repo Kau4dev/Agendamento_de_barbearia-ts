@@ -27,15 +27,23 @@ export const barbeiroRouter = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               telefone:
- *                 type: string
+ *             $ref: '#/components/schemas/BarbeiroInput'
+ *           example:
+ *             nome: "João da Silva"
+ *             telefone: "11999999999"
  *     responses:
  *       201:
  *         description: Barbeiro criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Barbeiro'
+ *             example:
+ *               id: 1
+ *               nome: "João da Silva"
+ *               telefone: "11999999999"
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       500:
@@ -128,6 +136,16 @@ barbeiroRouter.get("/:id", getBarbeiro);
  *     responses:
  *       200:
  *         description: Barbeiro atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Barbeiro'
+ *             example:
+ *               id: 1
+ *               nome: "João Atualizado"
+ *               telefone: "11888888888"
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:10:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       404:

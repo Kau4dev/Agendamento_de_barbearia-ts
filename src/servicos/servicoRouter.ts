@@ -22,18 +22,27 @@ const servicoRouter = Router();
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               descricao:
- *                 type: string
- *               preco:
- *                 type: number
- *               duracao:
- *                 type: integer
+ *             $ref: '#/components/schemas/ServicoInput'
+ *             example:
+ *               nome: "Corte Masculino"
+ *               descricao: "Corte de cabelo padrão"
+ *               preco: 50
+ *               duracao: 30
  *     responses:
  *       201:
  *         description: Serviço criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Servico'
+ *             example:
+ *               id: 1
+ *               nome: "Corte Masculino"
+ *               descricao: "Corte de cabelo padrão"
+ *               preco: 50
+ *               duracao: 30
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       500:
@@ -98,19 +107,27 @@ servicoRouter.get("/:id", ServicoController.findById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               descricao:
- *                 type: string
- *               preco:
- *                 type: number
- *               duracao:
- *                 type: integer
+ *             $ref: '#/components/schemas/ServicoInput'
+ *           example:
+ *             nome: "Corte Atualizado"
+ *             descricao: "Corte de cabelo atualizado"
+ *             preco: 60
+ *             duracao: 40
  *     responses:
  *       200:
  *         description: Serviço atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Servico'
+ *             example:
+ *               id: 1
+ *               nome: "Corte Atualizado"
+ *               descricao: "Corte de cabelo atualizado"
+ *               preco: 60
+ *               duracao: 40
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       404:

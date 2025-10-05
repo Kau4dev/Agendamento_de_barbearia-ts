@@ -11,6 +11,9 @@ export const getBarbeiros = async () => {
 export const getBarbeiroById = async (id: number) => {
   return await prisma.barbeiro.findUnique({
     where: { id },
+    include: {
+      agendamentos: true,
+    },
   });
 };
 

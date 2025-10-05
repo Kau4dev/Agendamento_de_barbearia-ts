@@ -1,4 +1,3 @@
-// src/modules/agendamentos/agendamento.service.ts
 import { prisma } from "../config/prisma";
 import { z } from "zod";
 import {
@@ -41,6 +40,7 @@ export class AgendamentoService {
       data: {
         ...(data.usuarioId !== undefined && { usuarioId: data.usuarioId }),
         ...(data.servicoId !== undefined && { servicoId: data.servicoId }),
+        ...(data.barbeiroId !== undefined && { barbeiroId: data.barbeiroId }),
         ...(data.dataHora !== undefined && { dataHora: data.dataHora }),
       },
     });

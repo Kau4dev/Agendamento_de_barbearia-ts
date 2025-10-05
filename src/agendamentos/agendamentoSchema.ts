@@ -1,4 +1,3 @@
-// src/modules/agendamento.schema.ts
 import { z } from "zod";
 
 export const createAgendamentoSchema = z.object({

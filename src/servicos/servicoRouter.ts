@@ -159,5 +159,41 @@ servicoRouter.put("/:id", ServicoController.update);
  *         description: Erro interno do servidor
  */
 servicoRouter.delete("/:id", ServicoController.delete);
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ServicoInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "Corte Masculino"
+ *         descricao:
+ *           type: string
+ *           example: "Corte de cabelo padrão"
+ *         preco:
+ *           type: number
+ *           example: 50
+ *         duracao:
+ *           type: integer
+ *           example: 30
+ *     Servico:
+ *       allOf:
+ *         - $ref: '#/components/schemas/ServicoInput'
+ *         - type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *               example: 1
+ *             createdAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:00:00.000Z"
+ *             updatedAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:10:00.000Z"
+ */
 
 export default servicoRouter;

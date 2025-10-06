@@ -122,10 +122,9 @@ usuarioRouter.post("/", createUsuario);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UsuarioInput'
+ *             $ref: '#/components/schemas/UsuarioUpdateInput'
  *             example:
- *               nome: "João da Silva"
- *               email: "joao@email.com"
+ *               nome: "João paulo da Silva"
  *               senha: "Senha@123"
  *               telefone: "11999999999"
  *     responses:
@@ -174,3 +173,52 @@ usuarioRouter.put("/:id", updateUsuario);
  *         description: Erro interno do servidor
  */
 usuarioRouter.delete("/:id", deleteUsuario);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UsuarioInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "João da Silva"
+ *         email:
+ *           type: string
+ *           example: "joao@email.com"
+ *         senha:
+ *           type: string
+ *           example: "Senha@123"
+ *         telefone:
+ *           type: string
+ *           example: "11999999999"
+ *     UsuarioUpdateInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "João paulo da Silva"
+ *         senha:
+ *           type: string
+ *           example: "Senha@123"
+ *         telefone:
+ *           type: string
+ *           example: "11999999999"
+ *     Usuario:
+ *       allOf:
+ *         - $ref: '#/components/schemas/UsuarioInput'
+ *         - type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *               example: 1
+ *             createdAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:00:00.000Z"
+ *             updatedAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:10:00.000Z"
+ */

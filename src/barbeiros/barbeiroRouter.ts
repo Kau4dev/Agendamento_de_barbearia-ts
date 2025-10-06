@@ -29,7 +29,7 @@ export const barbeiroRouter = express.Router();
  *           schema:
  *             $ref: '#/components/schemas/BarbeiroInput'
  *           example:
- *             nome: "João da Silva"
+ *             nome: "kleber"
  *             telefone: "11999999999"
  *     responses:
  *       201:
@@ -40,7 +40,7 @@ export const barbeiroRouter = express.Router();
  *               $ref: '#/components/schemas/Barbeiro'
  *             example:
  *               id: 1
- *               nome: "João da Silva"
+ *               nome: "kleber"
  *               telefone: "11999999999"
  *               createdAt: "2025-10-05T12:00:00.000Z"
  *               updatedAt: "2025-10-05T12:00:00.000Z"
@@ -154,3 +154,34 @@ barbeiroRouter.get("/:id", getBarbeiro);
  *         description: Erro interno do servidor
  */
 barbeiroRouter.put("/:id", updateBarbeiro);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BarbeiroInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "kleber"
+ *         telefone:
+ *           type: string
+ *           example: "11999999999"
+ *     Barbeiro:
+ *       allOf:
+ *         - $ref: '#/components/schemas/BarbeiroInput'
+ *         - type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *               example: 1
+ *             createdAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:00:00.000Z"
+ *             updatedAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:10:00.000Z"
+ */

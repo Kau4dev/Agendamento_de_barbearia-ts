@@ -25,6 +25,12 @@ export const usuarioRouter = express.Router();
  *     responses:
  *       200:
  *         description: Lista de usuários retornada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Usuario'
  *       500:
  *         description: Erro interno do servidor
  */
@@ -46,6 +52,10 @@ usuarioRouter.get("/", getAllUsuarios);
  *     responses:
  *       200:
  *         description: Usuário encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
  *       404:
  *         description: Usuário não encontrado
  *       400:
@@ -66,19 +76,27 @@ usuarioRouter.get("/:id", getUsuario);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               email:
- *                 type: string
- *               senha:
- *                 type: string
- *               telefone:
- *                 type: string
+ *             $ref: '#/components/schemas/UsuarioInput'
+ *             example:
+ *               nome: "João da Silva"
+ *               email: "joao@email.com"
+ *               senha: "Senha@123"
+ *               telefone: "11999999999"
  *     responses:
  *       201:
  *         description: Usuário criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
+ *               example:
+ *                 id: 1
+ *                 nome: "João da Silva"
+ *                 email: "joao@email.com"
+ *                 telefone: "11999999999"
+ *                 senha: "Senha@123"
+ *                 createdAt: "2025-10-05T12:00:00.000Z"
+ *                 updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       500:
@@ -104,17 +122,26 @@ usuarioRouter.post("/", createUsuario);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               senha:
- *                 type: string
- *               telefone:
- *                 type: string
+ *             $ref: '#/components/schemas/UsuarioUpdateInput'
+ *             example:
+ *               nome: "João paulo da Silva"
+ *               senha: "Senha@123"
+ *               telefone: "11999999999"
  *     responses:
  *       200:
  *         description: Usuário atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Usuario'
+ *               example:
+ *                 id: 1
+ *                 nome: "João da Silva"
+ *                 email: "joao@email.com"
+ *                 telefone: "11999999999"
+ *                 senha: "Senha@123"
+ *                 createdAt: "2025-10-05T12:00:00.000Z"
+ *                 updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       404:
@@ -146,3 +173,52 @@ usuarioRouter.put("/:id", updateUsuario);
  *         description: Erro interno do servidor
  */
 usuarioRouter.delete("/:id", deleteUsuario);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UsuarioInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "João da Silva"
+ *         email:
+ *           type: string
+ *           example: "joao@email.com"
+ *         senha:
+ *           type: string
+ *           example: "Senha@123"
+ *         telefone:
+ *           type: string
+ *           example: "11999999999"
+ *     UsuarioUpdateInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "João paulo da Silva"
+ *         senha:
+ *           type: string
+ *           example: "Senha@123"
+ *         telefone:
+ *           type: string
+ *           example: "11999999999"
+ *     Usuario:
+ *       allOf:
+ *         - $ref: '#/components/schemas/UsuarioInput'
+ *         - type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *               example: 1
+ *             createdAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:00:00.000Z"
+ *             updatedAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:10:00.000Z"
+ */

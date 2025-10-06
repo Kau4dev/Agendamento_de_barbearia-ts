@@ -1,4 +1,3 @@
-// src/modules/agendamento.schema.ts
 import { z } from "zod";
 
 export const createAgendamentoSchema = z.object({
@@ -6,6 +5,10 @@ export const createAgendamentoSchema = z.object({
   barbeiroId: z.number().int().positive("barbeiroId é obrigatório."),
   servicoId: z.number().int().positive("servicoId é obrigatório."),
   dataHora: z.coerce.date(),
+});
+
+export const updateStatusSchema = z.object({
+  status: z.enum(["PENDENTE", "CONFIRMADO", "CANCELADO", "CONCLUIDO"]),
 });
 
 export const updateAgendamentoSchema = createAgendamentoSchema.partial();

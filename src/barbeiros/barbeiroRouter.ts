@@ -27,15 +27,23 @@ export const barbeiroRouter = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nome:
- *                 type: string
- *               telefone:
- *                 type: string
+ *             $ref: '#/components/schemas/BarbeiroInput'
+ *           example:
+ *             nome: "kleber"
+ *             telefone: "11999999999"
  *     responses:
  *       201:
  *         description: Barbeiro criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Barbeiro'
+ *             example:
+ *               id: 1
+ *               nome: "kleber"
+ *               telefone: "11999999999"
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:00:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       500:
@@ -128,6 +136,16 @@ barbeiroRouter.get("/:id", getBarbeiro);
  *     responses:
  *       200:
  *         description: Barbeiro atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Barbeiro'
+ *             example:
+ *               id: 1
+ *               nome: "João Atualizado"
+ *               telefone: "11888888888"
+ *               createdAt: "2025-10-05T12:00:00.000Z"
+ *               updatedAt: "2025-10-05T12:10:00.000Z"
  *       400:
  *         description: Dados inválidos
  *       404:
@@ -136,3 +154,34 @@ barbeiroRouter.get("/:id", getBarbeiro);
  *         description: Erro interno do servidor
  */
 barbeiroRouter.put("/:id", updateBarbeiro);
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BarbeiroInput:
+ *       type: object
+ *       properties:
+ *         nome:
+ *           type: string
+ *           example: "kleber"
+ *         telefone:
+ *           type: string
+ *           example: "11999999999"
+ *     Barbeiro:
+ *       allOf:
+ *         - $ref: '#/components/schemas/BarbeiroInput'
+ *         - type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *               example: 1
+ *             createdAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:00:00.000Z"
+ *             updatedAt:
+ *               type: string
+ *               format: date-time
+ *               example: "2025-10-05T12:10:00.000Z"
+ */

@@ -23,6 +23,8 @@ model Usuario {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("usuarios")
 }
 
 model Barbeiro {
@@ -30,12 +32,14 @@ model Barbeiro {
   nome      String
   telefone  String
 
-  //agenda    Agenda[]
+  agenda    Agenda?
   agendamentos Agendamento[]
 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("barbeiros")
 }
 
 model Servico {
@@ -49,6 +53,8 @@ model Servico {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("servicos")
 }
 
 enum StatusAgendamento {
@@ -78,76 +84,40 @@ model Agendamento {
 }
 model Agenda {
 
-  id         Int    @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
+  barbeiroId Int      @unique 
+  barbeiro   Barbeiro @relation(fields: [barbeiroId], references: [id])
 
-  barbeiroId Int    @unique // Garante que cada barbeiro só tenha uma agenda
+  // Horários da Segunda
+  seg_inicio String? // Formato "HH:mm", ex: "09:00"
+  seg_fim    String? // Ex: "18:00"
 
-  barbeiro   Barbeiro @relation(fields: [barbeiroId], references: [id])
+  // Horários da Terça
+  ter_inicio String?
+  ter_fim    String?
 
+  // Horários da Quarta
+  qua_inicio String?
+  qua_fim    String?
 
+  // Horários da Quinta
+  qui_inicio String?
+  qui_fim    String?
 
-  // Horários da Segunda
+  // Horários da Sexta
+  sex_inicio String?
+  sex_fim    String?
 
-  seg_inicio String? // Formato "HH:mm", ex: "09:00"
+  // Horários do Sábado
+  sab_inicio String?
+  sab_fim    String?
 
-  seg_fim    String? // Ex: "18:00"
+  // Horários do Domingo
+  dom_inicio String?
+  dom_fim    String?
 
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-
-  // Horários da Terça
-
-  ter_inicio String?
-
-  ter_fim    String?
-
-
-
-  // Horários da Quarta
-
-  qua_inicio String?
-
-  qua_fim    String?
-
-  
-
-  // Horários da Quinta
-
-  qui_inicio String?
-
-  qui_fim    String?
-
-  
-
-  // Horários da Sexta
-
-  sex_inicio String?
-
-  sex_fim    String?
-
-
-
-  // Horários do Sábado
-
-  sab_inicio String?
-
-  sab_fim    String?
-
-
-
-  // Horários do Domingo
-
-  dom_inicio String?
-
-  dom_fim    String?
-
-
-
-  createdAt  DateTime @default(now())
-
-  updatedAt  DateTime @updatedAt
-
-
-
-  @@map("agendas")
-
+  @@map("agendas")
 }

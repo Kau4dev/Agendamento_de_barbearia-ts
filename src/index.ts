@@ -3,6 +3,7 @@ import { json } from "express";
 import { usuarioRouter } from "./usuarios/usuarioRouter";
 import { barbeiroRouter } from "./barbeiros/barbeiroRouter";
 import servicoRouter from "./servicos/servicoRouter";
+import agendaRouter from "./agenda/agendaRouter";
 import agendamentoRouter from "./agendamentos/agendamentoRouter";
 import { setupSwagger } from "./swaggerConfig/swagger";
 import { errorHandler } from "./middlewares/errorHandler";
@@ -16,6 +17,7 @@ app.use("/usuarios", usuarioRouter);
 app.use("/servicos", servicoRouter);
 app.use("/agendamentos", agendamentoRouter);
 app.use("/barbeiros", barbeiroRouter);
+app.use("/agendas", agendaRouter);
 setupSwagger(app);
 
 app.use(errorHandler);

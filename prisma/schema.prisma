@@ -1,15 +1,123 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// Define o gerador de cliente do Prisma para TypeScript.
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
+
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL") 
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  telefone  String
+
+  agendamentos Agendamento[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("usuarios")
+}
+
+model Barbeiro {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  telefone  String
+
+  agenda    Agenda?
+  agendamentos Agendamento[]
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("barbeiros")
+}
+
+model Servico {
+  id        Int      @id @default(autoincrement())
+  nome      String   @unique
+  descricao String?  
+  preco     Float
+  duracao   Int     
+
+  agendamentos Agendamento[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("servicos")
+}
+
+enum StatusAgendamento {
+  PENDENTE
+  CONFIRMADO
+  CANCELADO
+  CONCLUIDO
+}
+
+model Agendamento {
+  id                Int      @id @default(autoincrement())
+  dataHora          DateTime
+  status            StatusAgendamento @default(PENDENTE)
+
+  usuarioId         Int
+  servicoId         Int
+  barbeiroId        Int
+
+  usuario           Usuario  @relation(fields: [usuarioId], references: [id])
+  barbeiro          Barbeiro @relation(fields: [barbeiroId], references: [id])
+  servico           Servico  @relation(fields: [servicoId], references: [id])
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("agendamentos") 
+}
+model Agenda {
+
+  id         Int      @id @default(autoincrement())
+  barbeiroId Int      @unique 
+  barbeiro   Barbeiro @relation(fields: [barbeiroId], references: [id])
+
+  // Horários da Segunda
+  seg_inicio String? // Formato "HH:mm", ex: "09:00"
+  seg_fim    String? // Ex: "18:00"
+
+  // Horários da Terça
+  ter_inicio String?
+  ter_fim    String?
+
+  // Horários da Quarta
+  qua_inicio String?
+  qua_fim    String?
+
+  // Horários da Quinta
+  qui_inicio String?
+  qui_fim    String?
+
+  // Horários da Sexta
+  sex_inicio String?
+  sex_fim    String?
+
+  // Horários do Sábado
+  sab_inicio String?
+  sab_fim    String?
+
+  // Horários do Domingo
+  dom_inicio String?
+  dom_fim    String?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("agendas")
 }

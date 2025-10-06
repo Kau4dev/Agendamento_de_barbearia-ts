@@ -3,6 +3,7 @@ import { AgendamentoService } from "./agendamentoService";
 import {
   createAgendamentoSchema,
   updateAgendamentoSchema,
+  updateStatusSchema,
 } from "./agendamentoSchema";
 
 const agendamentoService = new AgendamentoService();
@@ -47,6 +48,20 @@ export class AgendamentoController {
       const agendamentoAtualizado = await agendamentoService.update(
         id,
         validatedData
+      );
+      res.status(200).json(agendamentoAtualizado);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async updateStatus(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = parseInt(req.params.id ?? "", 10);
+      const { status } = updateStatusSchema.parse(req.body);
+      const agendamentoAtualizado = await agendamentoService.updateStatus(
+        id,
+        status
       );
       res.status(200).json(agendamentoAtualizado);
     } catch (error) {

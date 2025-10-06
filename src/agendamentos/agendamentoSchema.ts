@@ -7,4 +7,8 @@ export const createAgendamentoSchema = z.object({
   dataHora: z.coerce.date(),
 });
 
+export const updateStatusSchema = z.object({
+  status: z.enum(["PENDENTE", "CONFIRMADO", "CANCELADO", "CONCLUIDO"]),
+});
+
 export const updateAgendamentoSchema = createAgendamentoSchema.partial();

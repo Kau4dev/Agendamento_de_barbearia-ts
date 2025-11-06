@@ -5,7 +5,7 @@ import {
   createUsuario,
   updateUsuario,
   deleteUsuario,
-  login, // <--- ADICIONADO
+  // Note que 'login' foi REMOVIDO daqui.
 } from "./usuarioController";
 
 export const usuarioRouter = express.Router();
@@ -17,52 +17,7 @@ export const usuarioRouter = express.Router();
  * description: Gerenciamento de usuários
  */
 
-// --- ROTA DE LOGIN ADICIONADA ---
-/**
- * @swagger
- * /usuarios/login:
- * post:
- * summary: Autentica um usuário e retorna um token JWT
- * tags: [Usuários]
- * requestBody:
- * required: true
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * email:
- * type: string
- * example: "joao@email.com"
- * senha:
- * type: string
- * example: "Senha@123"
- * responses:
- * 200:
- * description: Login bem-sucedido
- * content:
- * application/json:
- * schema:
- * type: object
- * properties:
- * message:
- * type: string
- * example: "Login bem-sucedido"
- * token:
- * type: string
- * example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
- * usuario:
- * $ref: '#/components/schemas/Usuario'
- * 400:
- * description: Dados inválidos
- * 401:
- * description: Email ou senha inválidos
- * 500:
- * description: Erro interno do servidor
- */
-usuarioRouter.post("/login", login);
-
-// --- ROTAS EXISTENTES ---
+// A rota de login FOI REMOVIDA daqui. Ela agora está no 'authRouter'.
 
 /**
  * @swagger

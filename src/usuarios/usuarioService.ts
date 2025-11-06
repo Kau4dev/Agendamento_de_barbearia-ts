@@ -15,23 +15,32 @@ export const getUsuarioById = async (id: number) => {
   });
 };
 
+export const getUsuarioByEmail = async (email: string) => {
+  return await prisma.usuario.findUnique({
+    where: { email },
+  });
+};
+
 export const createUsuario = async (data: CreateUsuarioInput) => {
-  
   const { senha, ...resto } = data;
-  const senhaHash = await bcrypt.hash(senha, 10); 
+  
+  const senhaHash = await bcrypt.hash(senha, 10);
 
   return await prisma.usuario.create({
     data: {
       ...resto,
-      senha: senhaHash, 
+      senha: senhaHash,
     },
   });
 };
 
 export const updateUsuario = async (id: number, data: UpdateUsuarioInput) => {
- 
-  const dataToUpdate: any = { ...data };
+  const dataToUpdate: any = {
+    nome: data.nome,
+    telefone: data.telefone,
+  };
 
+ 
   if (data.senha) {
     dataToUpdate.senha = await bcrypt.hash(data.senha, 10);
   }
@@ -47,14 +56,4 @@ export const deleteUsuario = async (id: number) => {
     where: { id },
   });
 };
-// ... (depois de deleteUsuario)
 
-export const getUsuarioByEmail = async (email: string) => {
-  return await prisma.usuario.findUnique({
-    where: { email },
-  });
-};
-
-export const validatePassword = async (senhaInput: string, senhaHash: string) => {
-  return await bcrypt.compare(senhaInput, senhaHash);
-};

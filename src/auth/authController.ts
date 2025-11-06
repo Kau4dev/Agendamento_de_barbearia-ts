@@ -3,7 +3,6 @@ import * as service from "./authService";
 import { loginUsuarioSchema } from "./authSchema";
 import jwt from "jsonwebtoken";
 
-
 export const login = async (req: Request, res: Response) => {
   try {
     const parsed = loginUsuarioSchema.safeParse(req.body);
@@ -34,6 +33,7 @@ export const login = async (req: Request, res: Response) => {
       usuario: usuarioSemSenha,
     });
   } catch (error) {
+    console.error("Erro no login:", error);
     return res.status(500).json({ message: "Erro interno do servidor" });
   }
 };

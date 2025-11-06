@@ -35,6 +35,7 @@ export const createUsuario = async (req: Request, res: Response) => {
     const created = await service.createUsuario(input);
     return res.status(201).json(created);
   } catch (error) {
+    console.error("Erro ao criar usuário:", error);
     return res.status(500).json({ message: "Erro interno do servidor" });
   }
 };
@@ -64,4 +65,3 @@ export const deleteUsuario = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Erro interno do servidor" });
   }
 };
-

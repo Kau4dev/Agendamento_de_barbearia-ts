@@ -1,7 +1,8 @@
 import { prisma } from "../config/prisma";
 import type { CreateUsuarioInput, UpdateUsuarioInput } from "./UsuarioSchema";
-import bcrypt from "bcryptjs"; 
+import bcrypt from "bcryptjs"; // <--- MANTIDO para criptografar
 
+// --- Funções de CRUD normais ---
 export const getUsuarios = async () => {
   return await prisma.usuario.findMany();
 };
@@ -15,32 +16,24 @@ export const getUsuarioById = async (id: number) => {
   });
 };
 
-export const getUsuarioByEmail = async (email: string) => {
-  return await prisma.usuario.findUnique({
-    where: { email },
-  });
-};
 
 export const createUsuario = async (data: CreateUsuarioInput) => {
-  const { senha, ...resto } = data;
   
+  const { senha, ...resto } = data;
   const senhaHash = await bcrypt.hash(senha, 10);
 
   return await prisma.usuario.create({
     data: {
       ...resto,
-      senha: senhaHash,
+      senha: senhaHash, 
     },
   });
 };
 
 export const updateUsuario = async (id: number, data: UpdateUsuarioInput) => {
-  const dataToUpdate: any = {
-    nome: data.nome,
-    telefone: data.telefone,
-  };
+  const dataToUpdate: any = { ...data };
 
- 
+  
   if (data.senha) {
     dataToUpdate.senha = await bcrypt.hash(data.senha, 10);
   }
@@ -57,3 +50,9 @@ export const deleteUsuario = async (id: number) => {
   });
 };
 
+
+export const getUsuarioByEmail = async (email: string) => {
+  return await prisma.usuario.findUnique({
+    where: { email },
+  });
+};

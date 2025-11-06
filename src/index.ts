@@ -1,68 +1,34 @@
-import type { Request, Response } from "express";
-import * as service from "./usuarios/usuarioService";
-import type { CreateUsuarioInput, UpdateUsuarioInput } from "./usuarios/UsuarioSchema";
-import { createUsuarioSchema, updateUsuarioSchema } from "./usuarios/UsuarioSchema";
+import express, { json } from "express";
+import cors from "cors";
+import { usuarioRouter } from "./usuarios/usuarioRouter";
+import { barbeiroRouter } from "./barbeiros/barbeiroRouter";
+import servicoRouter from "./servicos/servicoRouter";
+import agendaRouter from "./agenda/agendaRouter";
+import agendamentoRouter from "./agendamentos/agendamentoRouter";
+import { authRouter } from "./auth/authRouter";
+import { swaggerDocs } from "./swaggerConfig/swagger"; // <--- MUDANÇA AQUI (era setupSwagger)
+import { errorHandler } from "./middlewares/errorHandler";
 
+const app = express();
+const PORT = process.env.PORT || 3000;
 
+app.use(json());
+app.use(cors());
 
-export const getAllUsuarios = async (_req: Request, res: Response) => {
-  try {
-    const usuarios = await service.getUsuarios();
-    return res.json(usuarios);
-  } catch (error) {
-    return res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
+app.use("/auth", authRouter);
+app.use("/usuarios", usuarioRouter);
+app.use("/servicos", servicoRouter);
+app.use("/agendamentos", agendamentoRouter);
+app.use("/barbeiros", barbeiroRouter);
+app.use("/agendas", agendaRouter);
 
-export const getUsuario = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ message: "id é obrigatório" });
-    const usuario = await service.getUsuarioById(Number(id));
-    if (!usuario)
-      return res.status(404).json({ message: "Usuário não encontrado" });
-    return res.json(usuario);
-  } catch (error) {
-    return res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
+swaggerDocs(app); // <--- MUDANÇA AQUI (era setupSwagger)
 
-export const createUsuario = async (req: Request, res: Response) => {
-  try {
-    const parsed = createUsuarioSchema.safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ errors: parsed.error.format() });
-    const input: CreateUsuarioInput = parsed.data;
-    const created = await service.createUsuario(input);
-    return res.status(201).json(created);
-  } catch (error) {
-    return res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
+app.use(errorHandler);
 
-export const updateUsuario = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ message: "id é obrigatório" });
-    const parsed = updateUsuarioSchema.safeParse(req.body);
-    if (!parsed.success)
-      return res.status(400).json({ errors: parsed.error.format() });
-    const input: UpdateUsuarioInput = parsed.data;
-    const updated = await service.updateUsuario(Number(id), input);
-    return res.json(updated);
-  } catch (error) {
-    return res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
-
-export const deleteUsuario = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    if (!id) return res.status(400).json({ message: "id é obrigatório" });
-    await service.deleteUsuario(Number(id));
-    return res.status(204).send();
-  } catch (error) {
-    return res.status(500).json({ message: "Erro interno do servidor" });
-  }
-};
-
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(
+    `📚 Swagger documentation available at http://localhost:${PORT}/api-docs`
+  );
+});

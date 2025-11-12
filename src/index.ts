@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { json } from "express";
 import { usuarioRouter } from "./usuarios/usuarioRouter";
 import { barbeiroRouter } from "./barbeiros/barbeiroRouter";
@@ -13,6 +14,7 @@ import dashboardRouter from "./dashboard/dashboardRouter";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({ origin: "http://localhost:5173" }));
 app.use(json());
 
 app.use("/auth", authRouter);

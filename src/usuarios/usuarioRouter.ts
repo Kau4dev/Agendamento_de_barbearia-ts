@@ -6,6 +6,7 @@ import {
   updateUsuario,
   deleteUsuario,
 } from "./usuarioController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 export const usuarioRouter = express.Router();
 
@@ -34,7 +35,7 @@ export const usuarioRouter = express.Router();
  *       500:
  *         description: Erro interno do servidor
  */
-usuarioRouter.get("/", getAllUsuarios);
+usuarioRouter.get("/", authMiddleware, getAllUsuarios);
 
 /**
  * @swagger
@@ -63,7 +64,7 @@ usuarioRouter.get("/", getAllUsuarios);
  *       500:
  *         description: Erro interno do servidor
  */
-usuarioRouter.get("/:id", getUsuario);
+usuarioRouter.get("/:id", authMiddleware, getUsuario);
 
 /**
  * @swagger
@@ -149,7 +150,7 @@ usuarioRouter.post("/", createUsuario);
  *       500:
  *         description: Erro interno do servidor
  */
-usuarioRouter.put("/:id", updateUsuario);
+usuarioRouter.put("/:id", authMiddleware, updateUsuario);
 
 /**
  * @swagger
@@ -172,7 +173,7 @@ usuarioRouter.put("/:id", updateUsuario);
  *       500:
  *         description: Erro interno do servidor
  */
-usuarioRouter.delete("/:id", deleteUsuario);
+usuarioRouter.delete("/:id", authMiddleware, deleteUsuario);
 
 /**
  * @swagger

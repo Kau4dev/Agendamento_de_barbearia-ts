@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { ServicoController } from "./servicoController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const servicoRouter = Router();
+
+servicoRouter.use(authMiddleware);
 
 /**
  * @swagger

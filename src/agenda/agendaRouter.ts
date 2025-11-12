@@ -1,7 +1,10 @@
 import { Router } from "express";
 import AgendaController from "./agendaController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const agendaRouter = Router();
+
+agendaRouter.use(authMiddleware);
 
 /**
  * @swagger

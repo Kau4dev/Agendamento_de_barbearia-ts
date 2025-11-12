@@ -7,17 +7,21 @@ import agendaRouter from "./agenda/agendaRouter";
 import agendamentoRouter from "./agendamentos/agendamentoRouter";
 import { setupSwagger } from "./swaggerConfig/swagger";
 import { errorHandler } from "./middlewares/errorHandler";
+import authRouter from "./auth/authRouter";
+import dashboardRouter from "./dashboard/dashboardRouter";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(json());
 
+app.use("/auth", authRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/servicos", servicoRouter);
 app.use("/agendamentos", agendamentoRouter);
 app.use("/barbeiros", barbeiroRouter);
 app.use("/agendas", agendaRouter);
+app.use("/dashboard", dashboardRouter);
 setupSwagger(app);
 
 app.use(errorHandler);

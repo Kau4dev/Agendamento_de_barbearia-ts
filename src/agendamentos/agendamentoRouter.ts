@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { AgendamentoController } from "./agendamentoController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 const agendamentoRouter = Router();
 const controller = new AgendamentoController();
+
+agendamentoRouter.use(authMiddleware);
 
 /**
  * @swagger

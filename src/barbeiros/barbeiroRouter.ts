@@ -6,6 +6,7 @@ import {
   getBarbeiro,
   updateBarbeiro,
 } from "./barbeiroController";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 /**
  * @swagger
@@ -15,6 +16,8 @@ import {
  */
 
 export const barbeiroRouter = express.Router();
+
+barbeiroRouter.use(authMiddleware);
 
 /**
  * @swagger

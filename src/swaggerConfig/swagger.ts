@@ -18,20 +18,28 @@ const options = {
         description: "Servidor local",
       },
     ],
-    // REMOVEMOS os 'tags' e 'components/schemas' daqui
-    // para deixar os arquivos *Router.ts cuidarem disso.
+
+    
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",       
+          scheme: "bearer",     
+          bearerFormat: "JWT", 
+        },
+      },
+    },
+    
   },
-  // ESTA É A LINHA MAIS IMPORTANTE:
-  // Só vai ler os arquivos que terminam com Router.ts
-  apis: ["./src/**/*Router.ts"],
+
+  
+  apis: ["./src/**/*Router.ts", "./src/**/*Schema.ts"],
 };
 
-// Gera a especificação
+
 const swaggerSpec = swaggerJSDoc(options);
 
-/**
- * Exporta a função que configura o Swagger UI.
- */
+
 export const swaggerDocs = (app: Express) => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };

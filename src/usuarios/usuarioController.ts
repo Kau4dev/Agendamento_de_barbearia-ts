@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import * as service from "./usuarioService";
 import type { CreateUsuarioInput, UpdateUsuarioInput } from "./UsuarioSchema";
 import { createUsuarioSchema, updateUsuarioSchema } from "./UsuarioSchema";
+// Imports de login/jwt removidos
 
 export const getAllUsuarios = async (_req: Request, res: Response) => {
   try {
@@ -34,6 +35,7 @@ export const createUsuario = async (req: Request, res: Response) => {
     const created = await service.createUsuario(input);
     return res.status(201).json(created);
   } catch (error) {
+    console.error("Erro ao criar usuário:", error);
     return res.status(500).json({ message: "Erro interno do servidor" });
   }
 };

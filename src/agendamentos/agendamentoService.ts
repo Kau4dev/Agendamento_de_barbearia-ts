@@ -19,6 +19,13 @@ export class AgendamentoService {
 
     const dataHora =
       data.dataHora instanceof Date ? data.dataHora : new Date(data.dataHora);
+
+    // Validar se a data/hora não está no passado
+    const agora = new Date();
+    if (dataHora < agora) {
+      throw new Error("Não é possível agendar para uma data/hora no passado.");
+    }
+
     const diaSemana = dataHora.getDay();
 
     const dias = [
@@ -90,7 +97,7 @@ export class AgendamentoService {
 
     return prisma.agendamento.create({
       data: {
-        usuarioId: data.usuarioId,
+        clienteId: data.clienteId,
         servicoId: data.servicoId,
         barbeiroId: data.barbeiroId,
         dataHora: dataHora,
@@ -100,6 +107,11 @@ export class AgendamentoService {
 
   async findAll() {
     return prisma.agendamento.findMany({
+      include: {
+        cliente: true,
+        barbeiro: true,
+        servico: true,
+      },
       orderBy: {
         dataHora: "asc",
       },
@@ -109,6 +121,11 @@ export class AgendamentoService {
   async findById(id: number) {
     return prisma.agendamento.findUnique({
       where: { id },
+      include: {
+        cliente: true,
+        barbeiro: true,
+        servico: true,
+      },
     });
   }
 
@@ -116,7 +133,7 @@ export class AgendamentoService {
     return prisma.agendamento.update({
       where: { id },
       data: {
-        ...(data.usuarioId !== undefined && { usuarioId: data.usuarioId }),
+        ...(data.clienteId !== undefined && { clienteId: data.clienteId }),
         ...(data.servicoId !== undefined && { servicoId: data.servicoId }),
         ...(data.barbeiroId !== undefined && { barbeiroId: data.barbeiroId }),
         ...(data.dataHora !== undefined && { dataHora: data.dataHora }),

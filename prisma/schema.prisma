@@ -19,27 +19,59 @@ model Usuario {
   senha     String
   telefone  String
 
-  agendamentos Agendamento[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("usuarios")
 }
 
-model Barbeiro {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  telefone  String
+model Cliente {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  email        String   @unique
+  telefone     String
 
-  agenda    Agenda?
   agendamentos Agendamento[]
 
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  @@map("clientes")
+}
+
+model Barbeiro {
+  id            Int      @id @default(autoincrement())
+  nome          String
+  telefone      String
+  email         String?  @unique
+  especialidade String?
+  rating        Float?   @default(0)
+
+  agenda        Agenda?
+  agendamentos  Agendamento[]
+  avaliacoes    Avaliacao[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   @@map("barbeiros")
+}
+
+model Avaliacao {
+  id          Int      @id @default(autoincrement())
+  nota        Int      // 1 a 5 estrelas
+  comentario  String?
+  
+  barbeiroId  Int
+  clienteId   Int
+  agendamentoId Int?   @unique
+  
+  barbeiro    Barbeiro @relation(fields: [barbeiroId], references: [id])
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("avaliacoes")
 }
 
 model Servico {
@@ -69,11 +101,11 @@ model Agendamento {
   dataHora          DateTime
   status            StatusAgendamento @default(PENDENTE)
 
-  usuarioId         Int
+  clienteId         Int
   servicoId         Int
   barbeiroId        Int
 
-  usuario           Usuario  @relation(fields: [usuarioId], references: [id])
+  cliente           Cliente  @relation(fields: [clienteId], references: [id])
   barbeiro          Barbeiro @relation(fields: [barbeiroId], references: [id])
   servico           Servico  @relation(fields: [servicoId], references: [id])
 

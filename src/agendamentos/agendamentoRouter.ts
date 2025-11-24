@@ -1,12 +1,18 @@
 import { Router } from "express";
 import { AgendamentoController } from "./agendamentoController";
 import { authenticateToken } from "../middlewares/authMiddleware"; // <-- ADICIONADO
+import { avaliacaoController } from "../avaliacoes/avaliacaoController";
 
 const agendamentoRouter = Router();
 const controller = new AgendamentoController();
 
-
 agendamentoRouter.use(authenticateToken);
+
+// Rota para verificar se pode avaliar um agendamento
+agendamentoRouter.get(
+  "/:agendamentoId/pode-avaliar",
+  avaliacaoController.verificarPodeAvaliar
+);
 
 /**
  * @swagger
@@ -252,4 +258,4 @@ agendamentoRouter.delete("/:id", controller.delete);
  * example: "2025-11-05T12:10:00.000Z"
  */
 
-export default agendamentoRouter; 
+export default agendamentoRouter;

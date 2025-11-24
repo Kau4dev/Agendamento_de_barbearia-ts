@@ -10,6 +10,7 @@ import {
   getBarbeiro,
   updateBarbeiro,
 } from "./barbeiroController";
+import { avaliacaoController } from "../avaliacoes/avaliacaoController";
 
 /**
  * @swagger
@@ -163,6 +164,17 @@ barbeiroRouter.get("/:id", getBarbeiro);
  */
 // 2. APLICA O SEGURANÇA NA ROTA
 barbeiroRouter.put("/:id", authenticateToken, updateBarbeiro);
+
+// Rotas de avaliação
+barbeiroRouter.post(
+  "/:barbeiroId/avaliacoes",
+  authenticateToken,
+  avaliacaoController.criar
+);
+barbeiroRouter.get(
+  "/:barbeiroId/avaliacoes",
+  avaliacaoController.listarPorBarbeiro
+);
 
 /**
  * @swagger

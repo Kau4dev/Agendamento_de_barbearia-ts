@@ -1,5 +1,5 @@
 import express from "express";
-import { login } from "./authController";
+import { login, register } from "./authController";
 
 export const authRouter = express.Router();
 
@@ -53,3 +53,38 @@ export const authRouter = express.Router();
  *         description: Erro interno do servidor
  */
 authRouter.post("/login", login);
+
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Registra um novo usuário no sistema
+ *     tags: [Autenticação]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *                 example: "João Silva"
+ *               email:
+ *                 type: string
+ *                 example: "joao@email.com"
+ *               senha:
+ *                 type: string
+ *                 example: "Senha@123"
+ *               telefone:
+ *                 type: string
+ *                 example: "11999999999"
+ *     responses:
+ *       201:
+ *         description: Usuário criado com sucesso
+ *       400:
+ *         description: Dados inválidos
+ *       500:
+ *         description: Erro interno do servidor
+ */
+authRouter.post("/register", register);

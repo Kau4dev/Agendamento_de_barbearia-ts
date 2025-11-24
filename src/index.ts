@@ -2,33 +2,55 @@ import express, { json } from "express";
 import cors from "cors";
 import { usuarioRouter } from "./usuarios/usuarioRouter";
 import { barbeiroRouter } from "./barbeiros/barbeiroRouter";
+import { clienteRouter } from "./clientes/clienteRouter";
 import servicoRouter from "./servicos/servicoRouter";
 import agendaRouter from "./agenda/agendaRouter";
 import agendamentoRouter from "./agendamentos/agendamentoRouter";
 import { authRouter } from "./auth/authRouter";
-import { swaggerDocs } from "./swaggerConfig/swagger"; // <--- MUDANÇA AQUI (era setupSwagger)
+import { dashboardRouter } from "./dashboard/dashboardRouter";
+import notificacoesRouter from "./notificacoes/notificacoesRouter";
+// import { swaggerDocs } from "./swaggerConfig/swagger"; // Temporariamente desabilitado
 import { errorHandler } from "./middlewares/errorHandler";
+import { authenticateToken } from "./middlewares/authMiddleware";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configuração de CORS
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:8080",
+      "http://localhost:3000",
+      "http://localhost:4173",
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(json());
-app.use(cors());
 
+// Rotas públicas (sem autenticação)
 app.use("/auth", authRouter);
-app.use("/usuarios", usuarioRouter);
-app.use("/servicos", servicoRouter);
-app.use("/agendamentos", agendamentoRouter);
-app.use("/barbeiros", barbeiroRouter);
-app.use("/agendas", agendaRouter);
 
-swaggerDocs(app); // <--- MUDANÇA AQUI (era setupSwagger)
+// Rotas protegidas (requerem autenticação JWT)
+app.use("/usuarios", authenticateToken, usuarioRouter);
+app.use("/clientes", authenticateToken, clienteRouter);
+app.use("/servicos", authenticateToken, servicoRouter);
+app.use("/agendamentos", authenticateToken, agendamentoRouter);
+app.use("/barbeiros", authenticateToken, barbeiroRouter);
+app.use("/agendas", authenticateToken, agendaRouter);
+app.use("/dashboard", authenticateToken, dashboardRouter);
+app.use("/notificacoes", authenticateToken, notificacoesRouter);
+
+// swaggerDocs(app); // Temporariamente desabilitado devido a erros YAML
 
 app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(
-    `📚 Swagger documentation available at http://localhost:${PORT}/api-docs`
-  );
+  // console.log(`📚 Swagger documentation available at http://localhost:${PORT}/api-docs`);
 });

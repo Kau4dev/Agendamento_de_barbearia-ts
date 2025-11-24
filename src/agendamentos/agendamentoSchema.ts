@@ -1,10 +1,14 @@
 import { z } from "zod";
 
 export const createAgendamentoSchema = z.object({
-  usuarioId: z.number().int().positive("usuarioId é obrigatório."),
+  clienteId: z.number().int().positive("clienteId é obrigatório."),
   barbeiroId: z.number().int().positive("barbeiroId é obrigatório."),
   servicoId: z.number().int().positive("servicoId é obrigatório."),
-  dataHora: z.coerce.date(),
+  dataHora: z.coerce
+    .date()
+    .refine((date) => date > new Date(), {
+      message: "A data e hora do agendamento devem ser futuras",
+    }),
 });
 
 export const updateStatusSchema = z.object({

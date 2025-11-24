@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createBarbeiroSchema = z.object({
+export const createClienteSchema = z.object({
   nome: z
     .string()
     .min(3, { message: "O nome precisa ter no mínimo 3 caracteres" })
@@ -8,15 +8,13 @@ export const createBarbeiroSchema = z.object({
       /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/,
       "Nome deve conter apenas letras e espaços"
     ),
+  email: z.string().email("Email inválido"),
   telefone: z
     .string()
     .min(9, "O telefone precisa ter no mínimo 9 digitos, exemplo: 11999999999"),
-  email: z.string().email("Email inválido").optional(),
-  especialidade: z.string().optional(),
-  rating: z.number().min(0).max(5).optional(),
 });
 
-export const updateBarbeiroSchema = z
+export const updateClienteSchema = z
   .object({
     nome: z
       .string()
@@ -26,6 +24,7 @@ export const updateBarbeiroSchema = z
         "Nome deve conter apenas letras e espaços"
       )
       .optional(),
+    email: z.string().email("Email inválido").optional(),
     telefone: z
       .string()
       .min(
@@ -33,13 +32,8 @@ export const updateBarbeiroSchema = z
         "O telefone precisa ter no mínimo 9 digitos, exemplo: 11999999999"
       )
       .optional(),
-    email: z.string().email("Email inválido").optional(),
-    especialidade: z.string().optional(),
-    rating: z.number().min(0).max(5).optional(),
   })
   .strict();
 
-export type createBarbeiroInput = z.infer<typeof createBarbeiroSchema>;
-export type UpdateBarbeiroInput = z.infer<typeof updateBarbeiroSchema>;
-
-export default createBarbeiroSchema;
+export type CreateClienteInput = z.infer<typeof createClienteSchema>;
+export type UpdateClienteInput = z.infer<typeof updateClienteSchema>;

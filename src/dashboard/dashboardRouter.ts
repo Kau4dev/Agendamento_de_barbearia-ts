@@ -39,8 +39,6 @@ dashboardRouter.get("/stats", async (_req, res) => {
         status: true,
       },
     });
-    console.log("Total de agendamentos futuros:", totalAgendamentos);
-    console.log("Detalhes dos agendamentos:", todosAgendamentos);
 
     const totalClientes = await prisma.cliente.count();
 

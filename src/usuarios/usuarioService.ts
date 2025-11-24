@@ -10,22 +10,25 @@ export const getUsuarios = async () => {
 export const getUsuarioById = async (id: number) => {
   return await prisma.usuario.findUnique({
     where: { id },
-    include: {
-      agendamentos: true,
+    select: {
+      id: true,
+      nome: true,
+      email: true,
+      telefone: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 };
 
-
 export const createUsuario = async (data: CreateUsuarioInput) => {
-  
   const { senha, ...resto } = data;
   const senhaHash = await bcrypt.hash(senha, 10);
 
   return await prisma.usuario.create({
     data: {
       ...resto,
-      senha: senhaHash, 
+      senha: senhaHash,
     },
   });
 };
@@ -33,7 +36,6 @@ export const createUsuario = async (data: CreateUsuarioInput) => {
 export const updateUsuario = async (id: number, data: UpdateUsuarioInput) => {
   const dataToUpdate: any = { ...data };
 
-  
   if (data.senha) {
     dataToUpdate.senha = await bcrypt.hash(data.senha, 10);
   }
@@ -49,7 +51,6 @@ export const deleteUsuario = async (id: number) => {
     where: { id },
   });
 };
-
 
 export const getUsuarioByEmail = async (email: string) => {
   return await prisma.usuario.findUnique({

@@ -1,5 +1,5 @@
 import express, { json } from "express";
-import cors from "cors";
+import corsMiddleware from "./config/cors";
 import { usuarioRouter } from "./usuarios/usuarioRouter";
 import { barbeiroRouter } from "./barbeiros/barbeiroRouter";
 import { clienteRouter } from "./clientes/clienteRouter";
@@ -17,19 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuração de CORS
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:8080",
-      "http://localhost:3000",
-      "http://localhost:4173",
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(corsMiddleware);
 
 app.use(json());
 
@@ -46,7 +34,7 @@ app.use("/agendas", authenticateToken, agendaRouter);
 app.use("/dashboard", authenticateToken, dashboardRouter);
 app.use("/notificacoes", authenticateToken, notificacoesRouter);
 
-// swaggerDocs(app); // Temporariamente desabilitado devido a erros YAML
+// swaggerDocs(app);
 
 app.use(errorHandler);
 
